@@ -92,7 +92,7 @@ end
 
 %  Set up the sparse, inner-oriented  incidence matrix E10
 
-E10 = tE21';
+E10 = -tE21';
 
 %  Set up the (extended) sparse, inner-oriented incidence matrix E21
 
