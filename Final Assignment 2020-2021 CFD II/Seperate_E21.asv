@@ -1,0 +1,6 @@
+function [ou] = Seperate_E21(E21)
+%SEPERATE_E21 Seperates the inner fluxes of tE21 and the part where the
+% boundary conditions are imposed on.
+
+end
+

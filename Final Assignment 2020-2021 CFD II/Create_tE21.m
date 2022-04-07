@@ -27,7 +27,7 @@ end
 
 % Assemble tE21 matrix
 tE21 = [u, v];
-% tE21 = sparse(tE21);
+tE21 = sparse(tE21);
 
 end
 

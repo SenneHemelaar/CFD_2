@@ -1,6 +1,6 @@
 function [tE21, u_norm] = Seperate_tE21(tE21, N, u_vec)
-%SEPERATE_TE21 Seperates the inner fluxes of tE21 and the part where the
-% boundary conditions are subjected on.
+%SEPERATE_tE21 Seperates the inner fluxes of tE21 and the part where the
+% boundary conditions are imposed on.
 
 norm = tE21;
 for i = 1:N

@@ -12,7 +12,7 @@ warning on
 % 00D#MMXX#
 
 Re = 1000;           % Reynolds number
-N = 3;               % Number of volumes in the x- and y-direction
+N = 4;               % Number of volumes in the x- and y-direction
 Delta = 1/N;         % uniform spacing to be used in the mapping to compute tx
 
 filename = "results_N_"+N+".mat"; 
@@ -22,14 +22,14 @@ filename = "results_N_"+N+".mat";
 tol =1e-6;           % tol determines when steady state is reached and the program terminates
 
 % wall velocities
-BC.U_wall_top   = -1;
-BC.U_wall_bot   = 0;
-BC.U_wall_left  = 0;
-BC.U_wall_right = 0;
-BC.V_wall_top   = 0;
-BC.V_wall_bot   = 0;
-BC.V_wall_left  = 0;
-BC.V_wall_right = 0;
+U_wall_top   = -1;
+U_wall_bot   = 0;
+U_wall_left  = 0;
+U_wall_right = 0;
+V_wall_top   = 0;
+V_wall_bot   = 0;
+V_wall_left  = 0;
+V_wall_right = 0;
 
 
 %%  Generation of a non-uniform mesh
@@ -80,14 +80,16 @@ tE21 = Create_tE21(N);
 
 u_vec_norm = zeros(4*N,1);
 for i = 1:N
-    u_vec_norm(1+2*(i-1)) = BC.U_wall_left;
-    u_vec_norm(2*i)       = BC.U_wall_right;
-    u_vec_norm(2*N+i)     = BC.V_wall_bot;
-    u_vec_norm(3*N+i)     = BC.V_wall_top;
+    u_vec_norm(1+2*(i-1)) = U_wall_left;
+    u_vec_norm(2*i)       = U_wall_right;
+    u_vec_norm(2*N+i)     = V_wall_bot;
+    u_vec_norm(3*N+i)     = V_wall_top;
 end
 [tE21, u_norm] = Seperate_tE21(tE21, N, u_vec_norm);
 
 %  Set up the sparse, outer-oriented incidence matrix tE10.
+
+
 
 %  Set up the sparse, inner-oriented  incidence matrix E10
 
@@ -102,10 +104,10 @@ E21 = Create_E21(N);
 
 u_vec_tan = zeros((N+1)*4,1);
 for i = 1:N+1
-    u_vec_tan(i)                 = BC.U_wall_bot;
-    u_vec_tan((N+1)+i)           = BC.U_wall_top;
-    u_vec_tan((N+1)*2+1+(i-1)*2) = BC.V_wall_left;
-    u_vec_tan((N+1)*2+(2*i))     = BC.V_wall_right;
+    u_vec_tan(i) = U_wall_bot;
+    u_vec_tan((N+1)+i) = U_wall_top;
+    u_vec_tan((N+1)*2 + 1 + (i-1)*2) = V_wall_left;
+    u_vec_tan((N+1)*2 + (2*i)) = V_wall_right;
 end
 [E21, u_pres] = Seperate_E21(E21, N, u_vec_tan);
 
