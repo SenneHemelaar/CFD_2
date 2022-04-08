@@ -22,6 +22,7 @@ for i = 1:N
     E21_v_part = [E21_v_part, v_part(:,(N+4)+(i-1)*(N+2):(N+4)+(i-1)*(N+2)+(N-1))];
 end
 E21 = [E21_u_part, E21_v_part];
+E21 = sparse(E21);
 
 end
 

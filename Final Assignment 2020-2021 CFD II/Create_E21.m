@@ -17,6 +17,7 @@ I          = eye(N+1);
 v_part     = kron(I,diag_u);
 
 E21 = [u_part, v_part];
+E21 = sparse(E21);
 
 end
 

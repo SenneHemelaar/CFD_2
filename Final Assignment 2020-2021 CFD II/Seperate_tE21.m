@@ -16,6 +16,6 @@ for i = 1:N-1
 end
 tE21 = tE21(:,1:end-N);
 tE21 = [tE21(:,1:N*(N+1)) , tE21(:,N*(N+1) + N+1:end)];
-
+tE21 = sparse(tE21);
 end
 
