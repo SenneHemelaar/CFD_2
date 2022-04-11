@@ -1,0 +1,43 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%                         CFD 2 NS Solver                             %%%
+%%%                      Author: Senne Hemelaar                         %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+clear; close all; clc
+
+%%%========================= Input Variables ===========================%%%
+Re = 1000;         % Reynolds number
+N = 10;             % Number of volumes in the x- and y-direction
+tol =1e-6;         % tol determines when steady state is reached
+% wall velocities
+BC.U_wall_top   = -1;
+BC.U_wall_bot   = 0;
+BC.U_wall_left  = 0;
+BC.U_wall_right = 0;
+BC.V_wall_top   = 0;
+BC.V_wall_bot   = 0;
+BC.V_wall_left  = 0;
+BC.V_wall_right = 0;
+
+%%%======================== Run the NS Solver ==========================%%%
+[results, tx] = NS_Solver(N, Re, tol, BC);
+
+%%%=================== Reshape the Results Vectors =====================%%%
+results.xi = transpose(reshape(results.xi,[N+1,N+1]));
+results.v = results.u(length(results.u)/2+1:end);
+results.u = results.u(1:length(results.u)/2);
+results.u = transpose(reshape(results.u,[N+1,N]));
+results.v = transpose(reshape(results.v,[N,N+1]));
+results.N = N;
+
+%%%========================== Save Results =============================%%%
+filename = "results_N_"+N+".mat"; 
+save(filename,'results')
+% save(sprintf('Results_N_%d.mat', N),'results')
+
+
+
+
+
+
+
+

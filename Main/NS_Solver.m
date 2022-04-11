@@ -1,8 +1,8 @@
+function [results, tx, th, x, h] = NS_Solver(N, Re, tol)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%                         CFD 2 Assignment                            %%%
+%%%                         CFD 2 NS Solver                             %%%
 %%%                      Author: Senne Hemelaar                         %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-clear; close all; clc
 
 %{
 % The system that you need to solve will be singular. Matlab gives you a
@@ -10,15 +10,7 @@ clear; close all; clc
 % in the next line
 %}
 warning off
-
-Re = 1000;           % Reynolds number
-N = ;               % Number of volumes in the x- and y-direction
-Delta = 1/N;         % uniform spacing to be used in the mapping to compute tx
-
-filename = "results_N_"+N+".mat"; 
-
-tol =1e-6;           % tol determines when steady state is reached
-
+Delta = 1/N;      % uniform spacing to be used in the mapping to compute tx
 % wall velocities
 BC.U_wall_top   = -1;
 BC.U_wall_bot   = 0;
@@ -31,7 +23,6 @@ BC.V_wall_right = 0;
 
 for d=1
 %  Generation of a non-uniform mesh
-
 %  tx are the coordinates of the nodal points on the outer-oriented 
 %  primal mesh.
 
@@ -104,7 +95,7 @@ Ht11 = Create_Ht11(N, th, h);
 
 H1t1 = zeros(2*N*(N+1), 2*N*(N+1));
 for i = 1:length(Ht11)
-H1t1(i,i) = 1/Ht11(i,i);
+    H1t1(i,i) = 1/Ht11(i,i);
 end
 H1t1 = sparse(H1t1);
 
@@ -209,12 +200,28 @@ while diff > tol
     %}
     if mod(iter,1000) == 0
     
-        maxdiv = max(DIV*u + u_norm) 
+        maxdiv = max(DIV*u + u_norm); 
         
         diff = max(abs(u-uold))/dt
         
     end
     iter = iter + 1;
+    diff_list(iter) = diff;
+end
+
+results.u     = u;
+results.p     = p;
+results.xi    = xi;
+results.ux_xi = ux_xi;
+results.uy_xi = uy_xi;
+results.N     = N;
+results.Re    = Re;
+results.tx    = tx;
+results.th    = th;
+results.x     = x;
+results.h     = h;
+results.diff  = diff_list;
+results.iter  = iter;
 end
 
 

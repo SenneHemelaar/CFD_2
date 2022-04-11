@@ -15,8 +15,6 @@ Re = 1000;           % Reynolds number
 N = 50;               % Number of volumes in the x- and y-direction
 Delta = 1/N;         % uniform spacing to be used in the mapping to compute tx
 
-filename = "results_N_"+N+".mat"; 
-
 tol =1e-6;           % tol determines when steady state is reached
 
 % wall velocities
@@ -209,7 +207,7 @@ while diff > tol
     %}
     if mod(iter,1000) == 0
     
-        maxdiv = max(DIV*u + u_norm) 
+        maxdiv = max(DIV*u + u_norm); 
         
         diff = max(abs(u-uold))/dt
         

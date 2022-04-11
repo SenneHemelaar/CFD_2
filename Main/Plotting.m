@@ -39,7 +39,6 @@ xlabel('$x$','interpreter','latex')
 ylabel('$y$','interpreter','latex')
 title('$p$','interpreter','latex')
 
-
 % velocity
 v = u(length(u)/2+1:end);
 u = u(1:length(u)/2);

@@ -1,0 +1,10 @@
+function [results] = Reshape_p(results, N)
+%RESHAPE_P Reshapes the pressure vector
+
+
+p         = results.p(N+1:end-N);
+for 
+% p_mid     = transpose(reshape(p_mid,[N+2,N]));
+
+end
+
