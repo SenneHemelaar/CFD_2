@@ -6,5 +6,15 @@ results.p = reshape(results.p,[N+2,N]);
 results.p = transpose(results.p);
 results.p = results.p(:,2:end-1);
 
+% Convert from total to static pressure
+for i =1:N
+    for j = 1:N
+        results.p(i,j) = results.p(i,j) - 0.5*results.u_abs(i,j)^2;
+    end
+end
+
+% Find the center value for p and substract from p matrix
+p_center = results.p(round(N/2),round(N/2));
+results.p = results.p - p_center;
 end
 
