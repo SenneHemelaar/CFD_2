@@ -9,7 +9,7 @@ results.p = results.p(:,2:end-1);
 % Convert from total to static pressure
 for i =1:N
     for j = 1:N
-        results.p(i,j) = results.p(i,j) - 0.5*results.u_abs(i,j)^2;
+        results.p(i,j) = results.p(i,j) - 0.5*results.abs_u(i,j)^2;
     end
 end
 

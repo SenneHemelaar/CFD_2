@@ -20,8 +20,6 @@ settings.vorticity_line_plot_Cy  = 0;
 
 %%%========================== Load Results =============================%%%
 N_list = [15 31 63];
-for i = 1:length(N_list)
-N = N_list(i);
 Re = 1000;
 matfile = "Results_N_"+N+"_Re_"+Re+".mat";
 load(matfile)
@@ -96,12 +94,13 @@ end
 %%%====================== Line Plots Constant x ========================%%%
 color_string = linspecer(6);
 
+
 %%% VELOCITY %%%
 if (settings.velocity_line_plot_Cx)
 figure;
 hold on; grid on; box on;
 plot(ref_Cx.y,ref_Cx.u,'ks-','Linewidth',1.1)
-plot(results.x(2:end-1),results.u_x05,'color',color_string(i,:),'Linewidth',1.1)
+plot(results.x(2:end-1),results.u_x05,'color',color_string(1,:),'Linewidth',1.1)
 xlabel('$y$','interpreter','latex')
 ylabel('$u$','interpreter','latex')
 legend('Reference','$N=15$','$N=31$','$N=63$','interpreter','latex','Location','SouthWest')
@@ -115,7 +114,7 @@ if (settings.pressure_line_plot_Cx)
 figure;
 hold on; grid on; box on;
 plot(ref_Cx.y,ref_Cx.p,'ks-','Linewidth',1.1)
-plot(results.x(2:end-1),results.p_x05,'color',color_string(i,:),'Linewidth',1.1)
+plot(results.x(2:end-1),results.p_x05,'color',color_string(1,:),'Linewidth',1.1)
 xlabel('$y$','interpreter','latex')
 ylabel('$p$','interpreter','latex')
 legend('Reference','$N=15$','$N=31$','$N=63$','interpreter','latex','Location','NorthEast')
@@ -129,7 +128,7 @@ if (settings.vorticity_line_plot_Cx)
 figure;
 hold on; grid on; box on;
 plot(ref_Cx.y,ref_Cx.xi,'ks-','Linewidth',1.1)
-plot(results.tx,results.xi_x05,'color',color_string(i,:),'Linewidth',1.1)
+plot(results.tx,results.xi_x05,'color',color_string(1,:),'Linewidth',1.1)
 ylim([-10 20])
 xlabel('$y$','interpreter','latex')
 ylabel('$\omega$','interpreter','latex')
@@ -146,7 +145,7 @@ if (settings.velocity_line_plot_Cy)
 figure;
 hold on; grid on; box on;
 plot(ref_Cy.x,ref_Cy.v,'ks-','Linewidth',1.1)
-plot(results.x(2:end-1),results.v_y05,'color',color_string(i,:),'Linewidth',1.1)
+plot(results.x(2:end-1),results.v_y05,'color',color_string(1,:),'Linewidth',1.1)
 xlabel('$x$','interpreter','latex')
 ylabel('$v$','interpreter','latex')
 legend('Reference','$N=15$','$N=31$','$N=63$','interpreter','latex','Location','NorthWest')
@@ -160,7 +159,7 @@ if (settings.pressure_line_plot_Cy)
 figure;
 hold on; grid on; box on;
 plot(ref_Cy.x,ref_Cy.p,'ks-','Linewidth',1.1)
-plot(results.x(2:end-1),results.p_y05,'color',color_string(i,:),'Linewidth',1.1)
+plot(results.x(2:end-1),results.p_y05,'color',color_string(1,:),'Linewidth',1.1)
 xlabel('$x$','interpreter','latex')
 ylabel('$p$','interpreter','latex')
 legend('Reference','$N=15$','$N=31$','$N=63$','interpreter','latex','Location','North')
@@ -174,15 +173,13 @@ if (settings.vorticity_line_plot_Cy)
 figure;
 hold on; grid on; box on;
 plot(ref_Cy.x,ref_Cy.xi,'ks-','Linewidth',1.1)
-plot(results.tx,results.xi_y05,'color',color_string(i,:),'Linewidth',1.1)
+plot(results.tx,results.xi_y05,'color',color_string(1,:),'Linewidth',1.1)
 xlabel('$x$','interpreter','latex')
 ylabel('$\omega$','interpreter','latex')
 legend('Reference','$N=15$','$N=31$','$N=63$','interpreter','latex','Location','South')
 f = gcf; filename = "Vorticity_Reference_y05_Re_"+Re+".png";
 file = fullfile("C:\Users\Senne Hemelaar\OneDrive\Documenten\GitHub\CFD_2\Main\Images", filename);
 exportgraphics(f,file,'Resolution',600)
-end
-
 end
 
 

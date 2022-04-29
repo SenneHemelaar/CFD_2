@@ -5,24 +5,47 @@
 clear; close all; clc
 
 %%%========================= Input Variables ===========================%%%
-Re       = 1000;
-N_list   = [15];
+Re_list  = [1000];
+N_list   = [31];
 tol      = 1e-6;
 
+for j = 1:length(Re_list)
 for i = 1:length(N_list)
-N = N_list(i);
+Re = Re_list(j);
+N  = N_list(i);
 %%%======================== Run the NS Solver ==========================%%%
-[results]     = NS_Solver(N, Re, tol);
+[results]      = NS_Solver(N, Re, tol);
 
-%%%=================== Reshape the Results Vectors =====================%%%
-results.xi    = transpose(reshape(results.xi,[N+1,N+1]));
-results.ux_xi = transpose(reshape(results.ux_xi,[N+1,N+1]));
-results.uy_xi = transpose(reshape(results.uy_xi,[N+1,N+1]));
-results       = Reshape_u(results, N);
-results       = Reshape_p(results, N);
+%%%================= Post Process the Results Vectors ==================%%%
+results.xi     = transpose(reshape(results.xi,[N+1,N+1]));
+results.ux_xi  = transpose(reshape(results.ux_xi,[N+1,N+1]));
+results.uy_xi  = transpose(reshape(results.uy_xi,[N+1,N+1]));
+results.tu     = results.Ht11 * results.u;
+results        = Reshape_u(results, N);
+results        = Reshape_p(results, N);
+results        = Reshape_psi(results, N);
+% results        = Create_Centerline_Results(results, N);
+
+results.p_x05  = results.p(:,round(length(results.p)/2));
+results.p_y05  = results.p(round(length(results.p)/2),:);
+
+results.u_x05  = results.vec_u(:,round(length(results.vec_u)/2));
+results.u_y05  = results.vec_u(round(length(results.vec_u)/2),:);
+
+results.v_x05  = results.vec_v(:,round(length(results.vec_v)/2));
+results.v_y05  = results.vec_v(round(length(results.vec_v)/2),:);
+
+results.xi_x05 = results.xi(:,round(length(results.xi)/2));
+results.xi_y0
+
+
+
+[~, neworder]  = sort(lower(fieldnames(results)));
+results        = orderfields(results, neworder);
 
 %%%========================== Save Results =============================%%%
 save("Results_N_"+N+"_Re_"+Re+".mat",'results');
+end
 end
 
 

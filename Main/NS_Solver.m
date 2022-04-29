@@ -50,7 +50,7 @@ h = x(2:N+2) - x(1:N+1);
 %  Stable time step. Note that this is a conservative estimate, so it is
 %  possible to increase this time step somewhat.
 
-dt = 2* min(min(h),0.5*Re*min(h)^2);
+dt = 2 * min(min(h),0.5*Re*min(h)^2);
 
 %  Initial condition u=v=0.
 %  Both u and v will be stored in one big vector called 'u'.
@@ -73,6 +73,9 @@ for i = 1:N
     u_vec_norm(3*N+i)     = BC.V_wall_top;
 end
 [tE21, u_norm] = Seperate_tE21(tE21, N, u_vec_norm);
+
+%%%=============== Set up the incidence matrix 'tE10' ==================%%%
+[tE10] = Create_tE10(N);
 
 %%%================ Set up the incidence matrix 'E10' ==================%%%
 E10 = -tE21';
@@ -223,6 +226,9 @@ results.h     = h;
 results.diff  = diff_list;
 results.iter  = iter;
 results.dt    = dt;
+results.tE10  = tE10;
+results.Ht11  = Ht11;
+results.A     = A;
 end
 
 
