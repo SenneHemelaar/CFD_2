@@ -1,4 +1,4 @@
-function [results, tx, th, x, h] = NS_Solver(N, Re, tol)
+function [results, tx, th, x, h] = NS_Solver(N, Re, tol, dt_factor)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%                         CFD 2 NS Solver                             %%%
 %%%                      Author: Senne Hemelaar                         %%%
@@ -21,25 +21,14 @@ BC.V_wall_bot   = 0;
 BC.V_wall_left  = 0;
 BC.V_wall_right = 0;
 
-for d=1
-%  Generation of a non-uniform mesh
-%  tx are the coordinates of the nodal points on the outer-oriented 
-%  primal mesh.
-
 tx = zeros(1,N+1);
 for i=1:N+1
     xi = (i-1)*Delta;
     tx(i) = 0.5*(1. - cos(pi*xi));
 end
 
-%  Mesh width on the outer-oriented primal mesh.
-
 th = zeros(N,1);
 th = tx(2:N+1) - tx(1:N);
-
-%  x are the coordinates of the nodal points on the dual inner-orineted 
-%  mesh (including endpoints 0 and 1).
-%  h contains the edge lengths on the inner-oriented dual mesh.
 
 x = 0.5*(tx(1:N) + tx(2:N+1));
 x = [0 x 1];
@@ -47,19 +36,9 @@ x = [0 x 1];
 h = zeros(N+1,1);
 h = x(2:N+2) - x(1:N+1);
 
-%  Stable time step. Note that this is a conservative estimate, so it is
-%  possible to increase this time step somewhat.
-
-dt = 2 * min(min(h),0.5*Re*min(h)^2);
-
-%  Initial condition u=v=0.
-%  Both u and v will be stored in one big vector called 'u'.
-%  The vector u only contains the true unknowns, not the velocities that
-%  are prescribed by the boundary conditions.
-%  The vector u contains the *inner-oriented* circulations as unknowns.
+dt = dt_factor * min(min(h),0.5*Re*min(h)^2);
 
 u = zeros(2*N*(N+1),1);
-end
 
 %%%================ Set up the incindence matrix 'tE21' ================%%%
 tE21 = Create_tE21(N);
@@ -141,6 +120,7 @@ A = -tE21*Ht11*tE21';
 VLaplace = H1t1*E21'*Ht02*E21;
 DIV = tE21*Ht11;
 
+m=1
 while diff > tol
 %while iter < 10
      %{   
@@ -207,9 +187,12 @@ while diff > tol
         
         diff = max(abs(u-uold))/dt
         
+        results.t(m) = toc;
+        
+        m = m + 1;
     end
-    iter = iter + 1;
     diff_list(iter) = diff;
+    iter = iter + 1;
 end
 
 results.u     = u;
@@ -227,7 +210,11 @@ results.diff  = diff_list;
 results.iter  = iter;
 results.dt    = dt;
 results.tE10  = tE10;
+results.tE21  = tE21;
+results.E10   = E10;
+results.E21   = E21;
 results.Ht11  = Ht11;
+results.Ht02  = Ht02;
 results.A     = A;
 end
 
