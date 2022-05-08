@@ -7,18 +7,18 @@ clear; close all
 %%%========================= Plot Settings =============================%%%
 settings.pressure_contour_plot   = 0;
 settings.vorticity_contour_plot  = 0;
-settings.streamline_contour_plot = 0;
+settings.streamline_contour_plot = 1;
 
-settings.velocity_line_plot_Cx   = 1;
-settings.pressure_line_plot_Cx   = 1;
-settings.vorticity_line_plot_Cx  = 1;
+settings.velocity_line_plot_Cx   = 0;
+settings.pressure_line_plot_Cx   = 0;
+settings.vorticity_line_plot_Cx  = 0;
 
-settings.velocity_line_plot_Cy   = 1;
-settings.pressure_line_plot_Cy   = 1;
-settings.vorticity_line_plot_Cy  = 1;
+settings.velocity_line_plot_Cy   = 0;
+settings.pressure_line_plot_Cy   = 0;
+settings.vorticity_line_plot_Cy  = 0;
 
 %%%========================== Load Results =============================%%%
-N_list = [15 31 63];
+N_list = [15];
 for i = 1:length(N_list)
 N = N_list(i);
 Re = 1000;
@@ -196,7 +196,6 @@ exportgraphics(f,file,'Resolution',600)
 end
 
 end
-close all
 
 
 

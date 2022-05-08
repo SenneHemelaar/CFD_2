@@ -6,7 +6,7 @@ clear; close all; clc
 
 %%%========================= Input Variables ===========================%%%
 Re_list   = [1000];
-N_list    = [31];
+N_list    = [15];
 dt_list   = [5];
 tol_list  = [1e-6];
 
@@ -25,6 +25,8 @@ tol       = tol_list(m);
 [results]      = NS_Solver(N, Re, tol, dt_factor);
 
 %%%================= Post Process the Results Vectors ==================%%%
+results.xi2    = results.H2t0*results.xi;
+results.intvor = sum(results.xi2);
 results.xi     = transpose(reshape(results.xi,[N+1,N+1]));
 results.ux_xi  = transpose(reshape(results.ux_xi,[N+1,N+1]));
 results.uy_xi  = transpose(reshape(results.uy_xi,[N+1,N+1]));

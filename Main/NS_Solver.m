@@ -84,6 +84,12 @@ H1t1 = sparse(H1t1);
 %%%===================== Set up the Hodge matrix Ht02 ==================%%%
 [Ht02] = Create_Ht02(N, h);
 
+H2t0 = zeros(length(Ht02),length(Ht02));
+for i = 1:length(Ht02)
+    H2t0(i,i) = 1/Ht02(i,i);
+end
+H1t1 = sparse(H1t1);
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%=================== Non adjustable part of the code =================%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -109,6 +115,7 @@ uy_xi = zeros((N+1)*(N+1),1);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 diff = 1;
 iter = 1;
+m    = 1;
 
 %%%============ Set up the matrix for the Poisson equation =============%%%  
 A = -tE21*Ht11*tE21';
@@ -120,7 +127,6 @@ A = -tE21*Ht11*tE21';
 VLaplace = H1t1*E21'*Ht02*E21;
 DIV = tE21*Ht11;
 
-m=1
 while diff > tol
 %while iter < 10
      %{   
@@ -215,6 +221,7 @@ results.E10   = E10;
 results.E21   = E21;
 results.Ht11  = Ht11;
 results.Ht02  = Ht02;
+results.H2t0  = H2t0;
 results.A     = A;
 end
 

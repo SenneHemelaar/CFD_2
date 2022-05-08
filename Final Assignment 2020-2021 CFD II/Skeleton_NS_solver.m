@@ -12,7 +12,7 @@ clear; close all; clc
 warning off
 
 Re = 1000;           % Reynolds number
-N = 31;               % Number of volumes in the x- and y-direction
+N = 2;               % Number of volumes in the x- and y-direction
 Delta = 1/N;         % uniform spacing to be used in the mapping to compute tx
 
 tol =1e-6;           % tol determines when steady state is reached
@@ -215,5 +215,5 @@ while diff > tol
     iter = iter + 1;
 end
 
-
-
+A = (full(A));
+A = round(A);
